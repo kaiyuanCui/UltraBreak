@@ -79,6 +79,7 @@ def main():
     train_config = "./train_configs/safebench_diffusion_explicit_force_jailbroken_mode.csv"
     qwen_adapter = Qwen2Adapter("Qwen/Qwen2-VL-7B-Instruct", patch_only=False)
 
+    # optionally optimise against multiple surrogates; final method only uses one
     ensemble = [qwen_adapter]#, clip_adapter] #, llava_adapter]
     
     exp_name =  'test'
@@ -117,8 +118,6 @@ def main():
         text_loss = 0
         target_losses =[]
         for model in ensemble:
-            #if optimise_text:
-            model.reset_cache()
             for index, row in target_df.iterrows():
                 if index == 0 and epoch % 20 == 0:
                     print_probs = True
@@ -128,14 +127,14 @@ def main():
                 # recompute to save memory
                 l2_loss = torch.mean((adv_patch-0.5) ** 2)
                 tv_loss = total_variation(adv_patch)
-                # TODO: save all embeds or only the one we need
+            
                 model_loss= model.compute_loss(row, adv_patch, '', custom_loss=custom_loss, print_probs=print_probs)
-                #print(model_loss.shape, model_loss)
                 loss =  model_loss + tv_loss * tv_weight + l2_loss * l2_weight
                 loss.backward()
                 text_loss += model_loss.item()
                 target_losses.append(model_loss.item())
 
+        # this is for display only
         total_loss = text_loss / (len(target_df) * len(ensemble)) + tv_loss * tv_weight + l2_loss * l2_weight
       
         optimizer.step()
