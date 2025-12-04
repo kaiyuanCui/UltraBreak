@@ -1,11 +1,10 @@
 from PIL import Image
 
-from utils import get_filtered_cands, sample_control, token_gradients
-from llava15_adapter import Llava15Adapter
-from llava16_adapter import Llava16Adapter
-from qwen2_adapter import Qwen2Adapter
-from clip_adapter import CLIPAdapter
-from glm_adapter import GlmAdapter
+from .utils import get_filtered_cands, sample_control, token_gradients
+
+from .llava16_adapter import Llava16Adapter
+from .qwen2_adapter import Qwen2Adapter
+
 import torch.optim as optim
 
 import torch

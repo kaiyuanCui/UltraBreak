@@ -1,8 +1,8 @@
 # adapters/llava_adapter.py
-from base_adapter import BaseModelAdapter
+from .base_adapter import BaseModelAdapter
 from PIL import Image
 import torch
-from utils import OPENAI_CLIP_MEAN, OPENAI_CLIP_STD, apply_random_patch, semantic_similarity_loss
+from .utils import OPENAI_CLIP_MEAN, OPENAI_CLIP_STD, apply_random_patch, semantic_similarity_loss
 import torch.nn.functional as F
 import io, base64
 from transformers import LlavaNextProcessor, LlavaNextForConditionalGeneration

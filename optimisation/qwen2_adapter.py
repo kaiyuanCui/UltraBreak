@@ -1,6 +1,6 @@
-from base_adapter import BaseModelAdapter
+from .base_adapter import BaseModelAdapter
 from PIL import Image
-from utils import apply_random_patch, random_project_patch, project_patch, semantic_similarity_loss
+from .utils import apply_random_patch, semantic_similarity_loss
 import torch
 from transformers import Qwen2VLForConditionalGeneration, AutoTokenizer, AutoProcessor, Qwen2_5_VLForConditionalGeneration
 from qwen_vl_utils import process_vision_info
@@ -71,11 +71,7 @@ class Qwen2Adapter(BaseModelAdapter):
             return_tensors="pt",
         ).to("cuda")
         input_ids = processed["input_ids"]
-
-        # length of ids up to the input
-        self.input_lengths.append(len(input_ids[0]))
-
-        
+    
         attention_mask = processed.get("attention_mask", None)
         pixel_values = processed["pixel_values"]
         image_grid_thw = processed['image_grid_thw']
