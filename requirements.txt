@@ -1,0 +1,8 @@
+numpy==2.3.5
+pandas==2.3.3
+Pillow==12.0.0
+python-dotenv==1.2.1
+torch==2.6.0+cu126
+torchvision==0.21.0+cu126
+tqdm==4.67.1
+transformers==4.41.0
