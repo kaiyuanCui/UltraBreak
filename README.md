@@ -7,7 +7,7 @@ Vision–language models (VLMs) extend large language models (LLMs) with vision 
 
 ## 📘 Method Overview
 <p align="center">
-  <img src="figures/ultrabreak_overview.png" width="600" alt="Model architecture">
+  <img src="figures/ultrabreak_overview.png" width="100%" alt="Model architecture">
 </p>
 UltraBreak introduces two key components to enhance the transferability of optimisation-based jailbreaking images: (1) constraints on the optimisation space and (2) a semantic-driven loss function. The constraints encourage the optimiser to discover robust features that remain invariant across models by incorporating random transformations, projection, and pixel-variation limits. To address the uneven loss landscape introduced by these constraints, the semantic-driven loss aligns optimisation with the target jailbreak semantics rather than individual tokens, yielding more stable and effective training.
 
