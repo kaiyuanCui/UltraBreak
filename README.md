@@ -1,5 +1,5 @@
 # UltraBreak
-Universal and Transferable Jailbreak Attack on Vision-Language Models
+The official implementation of our paper, [Toward Universal and Transferable Jailbreak Attacks on Vision-Language Models](https://openreview.net/forum?id=T5hD0as3jb)
 
 
 ## 🧠 Abstract
@@ -18,4 +18,15 @@ UltraBreak introduces two key components to enhance the transferability of optim
 git clone https://github.com/kaiyuanCui/UltraBreak.git
 cd UltraBreak
 pip install -r requirements.txt
+```
+
+### 2. Optimisation
+```bash
+python optimisation/optimise.py
+```
+
+### 3. Evaluation
+```bash
+python evaluation/attack.py
+python evaluation/evaluate.py
 ```
