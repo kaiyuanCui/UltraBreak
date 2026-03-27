@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="UltraBreak: Universal and Transferable Jailbreak Attacks on Vision-Language Models. ICLR 2026.">
+  <title>UltraBreak | Universal & Transferable VLM Jailbreak</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&family=Noto+Sans:wght@400;500&family=Castoro&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="static/css/index.css">
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════ NAVBAR ═══════════════════════════════════════ -->
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item" href="#">
+      <strong>UltraBreak</strong>
+    </a>
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div class="navbar-menu">
+    <div class="navbar-start" style="flex-grow:1; justify-content:center;">
+      <a class="navbar-item" href="#abstract">Abstract</a>
+      <a class="navbar-item" href="#method">Method</a>
+      <a class="navbar-item" href="#results">Results</a>
+      <a class="navbar-item" href="#analysis">Analysis</a>
+      <a class="navbar-item" href="#bibtex">BibTeX</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════ HERO ═══════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+
+          <div style="margin-bottom: 0.75rem;">
+            <span class="venue-tag">ICLR 2026</span>
+          </div>
+
+          <h1 class="title is-2 publication-title">
+            Toward Universal and Transferable<br>
+            Jailbreak Attacks on Vision-Language Models
+          </h1>
+
+          <div class="is-size-5 publication-authors" style="margin-top: 1rem; margin-bottom: 0.5rem;">
+            <span class="author-block">
+              <a href="https://github.com/kaiyuanCui">Kaiyuan Cui</a><sup class="affil-sup">1</sup>,&nbsp;
+            </span>
+            <span class="author-block">
+              Yige Li<sup class="affil-sup">2</sup>,&nbsp;
+            </span>
+            <span class="author-block">
+              Yutao Wu<sup class="affil-sup">3</sup>,&nbsp;
+            </span>
+            <span class="author-block">
+              Xingjun Ma<sup class="affil-sup">4</sup>,&nbsp;
+            </span>
+            <span class="author-block">
+              Sarah Erfani<sup class="affil-sup">1</sup>,
+            </span>
+            <br>
+            <span class="author-block">
+              Christopher Leckie<sup class="affil-sup">1</sup>,&nbsp;
+            </span>
+            <span class="author-block">
+              <a href="https://hanxunh.github.io/">Hanxun Huang</a><sup class="affil-sup">1</sup>
+            </span>
+          </div>
+
+          <div class="is-size-6" style="color: #555; margin-bottom: 1.25rem; line-height: 1.8;">
+            <sup class="affil-sup">1</sup> University of Melbourne &nbsp;
+            <sup class="affil-sup">2</sup> Singapore Management University &nbsp;
+            <sup class="affil-sup">3</sup> Deakin University &nbsp;
+            <sup class="affil-sup">4</sup> Fudan University
+          </div>
+
+          <!-- Link buttons -->
+          <div class="publication-links">
+            <!-- Paper / arXiv — update href when available -->
+            <a href="https://github.com/kaiyuanCui/UltraBreak" class="button is-normal is-rounded is-dark" title="Paper coming soon">
+              <span class="icon"><i class="fas fa-file-pdf"></i></span>
+              <span>Paper</span>
+            </a>
+
+            <a href="https://github.com/kaiyuanCui/UltraBreak" class="button is-normal is-rounded is-dark">
+              <span class="icon"><i class="fab fa-github"></i></span>
+              <span>Code</span>
+            </a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════ ABSTRACT ═══════════════════════════════════════ -->
+<section class="section" id="abstract">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">
+      <span class="section-title">Abstract</span>
+    </h2>
+    <div class="abstract-box">
+      Vision–language models (VLMs) extend large language models (LLMs) with vision encoders, enabling
+      text generation conditioned on both images and text. However, this multimodal integration expands
+      the attack surface by exposing the model to image-based jailbreaks crafted to induce harmful
+      responses. Existing gradient-based jailbreak methods transfer poorly, as adversarial patterns
+      overfit to a single white-box surrogate and fail to generalise to black-box models.
+      <br><br>
+      In this work, we propose <strong><u>U</u>niversa<u>l</u> and <u>tra</u>nsferable jail<u>break</u>
+      (UltraBreak)</strong>, a framework that constrains adversarial patterns through transformations
+      and regularisation in the vision space, while relaxing textual targets through semantic-based
+      objectives. By defining its loss in the textual embedding space of the target LLM, UltraBreak
+      discovers universal adversarial patterns that generalise across diverse jailbreak objectives.
+      This combination of vision-level regularisation and semantically guided textual supervision
+      mitigates surrogate overfitting and enables strong transferability across both models and attack
+      targets. Extensive experiments show that UltraBreak consistently outperforms prior jailbreak
+      methods. Further analysis reveals why earlier approaches fail to transfer, highlighting that
+      smoothing the loss landscape via semantic objectives is crucial for enabling universal and
+      transferable jailbreaks.
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════ METHOD ═══════════════════════════════════════ -->
+<section class="section" id="method" style="background:#fafbff;">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">
+      <span class="section-title">Method Overview</span>
+    </h2>
+
+    <div class="has-text-centered" style="margin-bottom: 1.5rem;">
+      <img src="static/images/ultrabreak_overview.png"
+           alt="UltraBreak method overview"
+           style="max-width: 860px; width: 100%; border-radius: 6px;">
+      <p class="is-size-6" style="color:#555; margin-top:0.6rem;">
+        <strong>Figure 1.</strong> Overview of UltraBreak. Two key components work in tandem to
+        produce a universal and transferable jailbreak image.
+      </p>
+    </div>
+
+    <div class="method-box">
+      <p style="margin-bottom: 1rem;">
+        UltraBreak is guided by two complementary insights for improving transferability of
+        optimisation-based jailbreak images:
+      </p>
+
+      <div class="method-item">
+        <p>
+          <strong>① Constrained Optimisation Space.</strong>
+          Random spatial transformations (rotation ±15°, scale 0.8–1.2×, random translation)
+          are applied at each training step, restricting optimisation to subspaces where
+          transformation-invariant features emerge. A Total Variation (TV) regularisation term
+          suppresses fragile pixel-level artifacts and smooths the image, promoting model-agnostic
+          visual cues—such as text-like or shape-like patterns—that are recognisable across diverse
+          VLM architectures.
+        </p>
+      </div>
+
+      <div class="method-item">
+        <p>
+          <strong>② Semantic Adversarial Target.</strong>
+          Instead of forcing exact output tokens via cross-entropy loss, UltraBreak defines its
+          objective in the LLM's textual embedding space. A softmax-weighted expected embedding
+          is compared against target embeddings via cosine similarity. An attention mechanism
+          with causal masking and sinusoidal positional encoding dynamically assigns weights to
+          future target tokens, smoothing the loss landscape and preventing optimisation from
+          collapsing to brittle token-level solutions.
+        </p>
+      </div>
+
+      <div class="method-item">
+        <p>
+          <strong>Final Objective.</strong>
+          The combined loss minimises the attention semantic loss
+          <em>&#x2113;<sup>att</sup><sub>sem</sub></em>
+          (over randomly transformed inputs with an affine projection step)
+          plus a weighted TV regularisation term, yielding an adversarial image that is both
+          <em>universal</em> (cross-target) and <em>transferable</em> (cross-model).
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════ RESULTS ═══════════════════════════════════════ -->
+<section class="section" id="results">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">
+      <span class="section-title">Main Results</span>
+    </h2>
+    <p style="margin-bottom: 1.5rem;">
+      UltraBreak uses <strong>Qwen2-VL-7B-Instruct</strong> as the single surrogate model and is
+      evaluated against five black-box open-source VLMs across three benchmarks (SafeBench,
+      AdvBench, MM-SafetyBench) plus three closed-source commercial models.
+      Grey cells indicate white-box (surrogate) evaluation.
+    </p>
+
+    <!-- Key numbers callout -->
+    <div class="columns is-multiline is-centered" style="margin-bottom: 2rem;">
+      <div class="column is-narrow has-text-centered">
+        <div style="background:#3273dc; color:white; border-radius:12px; padding: 1rem 1.5rem;">
+          <div style="font-size:2rem; font-weight:700;">71.1%</div>
+          <div style="font-size:0.85rem;">SafeBench Black-Box ASR</div>
+        </div>
+      </div>
+      <div class="column is-narrow has-text-centered">
+        <div style="background:#209cee; color:white; border-radius:12px; padding: 1rem 1.5rem;">
+          <div style="font-size:2rem; font-weight:700;">52.2%</div>
+          <div style="font-size:0.85rem;">AdvBench Black-Box ASR</div>
+        </div>
+      </div>
+      <div class="column is-narrow has-text-centered">
+        <div style="background:#23d160; color:white; border-radius:12px; padding: 1rem 1.5rem;">
+          <div style="font-size:2rem; font-weight:700;">58.5%</div>
+          <div style="font-size:0.85rem;">MM-SafetyBench Black-Box ASR</div>
+        </div>
+      </div>
+      <div class="column is-narrow has-text-centered">
+        <div style="background:#ff3860; color:white; border-radius:12px; padding: 1rem 1.5rem;">
+          <div style="font-size:2rem; font-weight:700;">32.3%</div>
+          <div style="font-size:0.85rem;">Commercial VLMs ASR</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="results-table">
+      <table>
+        <thead>
+          <tr>
+            <th>Dataset</th>
+            <th>Target Model</th>
+            <th>No Attack</th>
+            <th>FigStep</th>
+            <th>VAJM</th>
+            <th>UMK</th>
+            <th>UltraBreak (Ours)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- SafeBench -->
+          <tr class="section-header"><td colspan="7">SafeBench</td></tr>
+          <tr>
+            <td rowspan="7" style="font-weight:600; vertical-align:middle;"></td>
+            <td class="whitebox">Qwen2-VL-7B (surrogate)</td>
+            <td>18.41</td><td>44.76</td><td class="whitebox">0.95</td><td class="whitebox">97.78</td><td class="whitebox">81.59</td>
+          </tr>
+          <tr>
+            <td>Qwen-VL-Chat</td>
+            <td>22.86</td><td>69.52</td><td>12.06</td><td>0.63</td><td class="best">72.70</td>
+          </tr>
+          <tr>
+            <td>Qwen2.5-VL-7B</td>
+            <td>14.29</td><td>53.97</td><td>28.89</td><td>15.24</td><td class="best">60.32</td>
+          </tr>
+          <tr>
+            <td>LLaVA-v1.6-Mistral-7B</td>
+            <td>80.32</td><td>47.94</td><td>57.46</td><td>20.63</td><td class="best">88.25</td>
+          </tr>
+          <tr>
+            <td>Kimi-VL-A3B</td>
+            <td>39.37</td><td class="best">73.02</td><td>41.27</td><td>12.70</td><td>67.94</td>
+          </tr>
+          <tr>
+            <td>GLM-4.1V-9B</td>
+            <td>46.03</td><td class="best">88.25</td><td>67.62</td><td>50.79</td><td>66.03</td>
+          </tr>
+          <tr class="avg-row">
+            <td><strong>Black-Box Average</strong></td>
+            <td>40.57</td><td>66.54</td><td>41.46</td><td>20.00</td><td class="best">71.05</td>
+          </tr>
+
+          <!-- AdvBench -->
+          <tr class="section-header"><td colspan="7">AdvBench</td></tr>
+          <tr>
+            <td class="whitebox">Qwen2-VL-7B (surrogate)</td>
+            <td>0.38</td><td>—</td><td class="whitebox">0.38</td><td class="whitebox">70.00</td><td class="whitebox best">72.69</td>
+          </tr>
+          <tr>
+            <td>Qwen-VL-Chat</td>
+            <td>1.92</td><td>—</td><td>0.96</td><td>0.38</td><td class="best">71.92</td>
+          </tr>
+          <tr>
+            <td>Qwen2.5-VL-7B</td>
+            <td>0.00</td><td>—</td><td>0.38</td><td>2.69</td><td class="best">35.77</td>
+          </tr>
+          <tr>
+            <td>LLaVA-v1.6-Mistral-7B</td>
+            <td>21.35</td><td>—</td><td>19.42</td><td>16.35</td><td class="best">92.88</td>
+          </tr>
+          <tr>
+            <td>Kimi-VL-A3B</td>
+            <td>4.42</td><td>—</td><td>3.65</td><td>2.12</td><td class="best">30.38</td>
+          </tr>
+          <tr>
+            <td>GLM-4.1V-9B</td>
+            <td>2.12</td><td>—</td><td>3.65</td><td>4.42</td><td class="best">30.00</td>
+          </tr>
+          <tr class="avg-row">
+            <td><strong>Black-Box Average</strong></td>
+            <td>5.96</td><td>—</td><td>5.61</td><td>5.19</td><td class="best">52.19</td>
+          </tr>
+
+          <!-- MM-SafetyBench -->
+          <tr class="section-header"><td colspan="7">MM-SafetyBench</td></tr>
+          <tr>
+            <td class="whitebox">Qwen2-VL-7B (surrogate)</td>
+            <td>26.19</td><td>—</td><td class="whitebox">5.42</td><td class="whitebox">54.76</td><td class="whitebox best">57.26</td>
+          </tr>
+          <tr>
+            <td>Qwen-VL-Chat</td>
+            <td>21.49</td><td>—</td><td>11.73</td><td>5.48</td><td class="best">53.10</td>
+          </tr>
+          <tr>
+            <td>Qwen2.5-VL-7B</td>
+            <td>33.45</td><td>—</td><td>26.79</td><td>17.56</td><td class="best">45.83</td>
+          </tr>
+          <tr>
+            <td>LLaVA-v1.6-Mistral-7B</td>
+            <td>35.06</td><td>—</td><td>30.18</td><td>21.96</td><td class="best">71.90</td>
+          </tr>
+          <tr>
+            <td>Kimi-VL-A3B</td>
+            <td>41.79</td><td>—</td><td>35.36</td><td>26.67</td><td class="best">54.58</td>
+          </tr>
+          <tr>
+            <td>GLM-4.1V-9B</td>
+            <td>43.69</td><td>—</td><td>36.73</td><td>37.44</td><td class="best">67.08</td>
+          </tr>
+          <tr class="avg-row">
+            <td><strong>Black-Box Average</strong></td>
+            <td>35.10</td><td>—</td><td>28.16</td><td>21.82</td><td class="best">58.50</td>
+          </tr>
+
+          <!-- Commercial -->
+          <tr class="section-header"><td colspan="7">Commercial VLMs (Combined Subset)</td></tr>
+          <tr>
+            <td>GPT-4.1-nano</td>
+            <td>26.00</td><td>—</td><td>22.45</td><td>37.78</td><td class="best">38.78</td>
+          </tr>
+          <tr>
+            <td>Gemini-2.5-flash-lite</td>
+            <td>28.00</td><td>—</td><td>12.00</td><td>6.00</td><td class="best">42.00</td>
+          </tr>
+          <tr>
+            <td>Claude-3-haiku</td>
+            <td>6.00</td><td>—</td><td>0.00</td><td>0.00</td><td class="best">16.00</td>
+          </tr>
+          <tr class="avg-row">
+            <td><strong>Average</strong></td>
+            <td>20.00</td><td>—</td><td>11.48</td><td>14.59</td><td class="best">32.26</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="is-size-7" style="margin-top:0.5rem; color:#777;">
+      Attack Success Rate (ASR, %). Grey cells = white-box (surrogate) setting.
+      Bold = best result per row. FigStep requires a target-specific image and is evaluated on SafeBench only.
+    </p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════ ANALYSIS ═══════════════════════════════════════ -->
+<section class="section" id="analysis" style="background:#fafbff;">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">
+      <span class="section-title">Analysis &amp; Ablation</span>
+    </h2>
+
+    <!-- Visual Patterns -->
+    <h3 class="title is-4" style="margin-bottom: 0.75rem;">Effect of Visual Constraints</h3>
+    <p style="margin-bottom: 1.25rem;">
+      Without constraints, the optimised image shows no discernible structure.
+      Adding random transformations causes text-like patterns to emerge as the optimiser seeks
+      transformation-invariant features. TV regularisation further smooths the image, producing
+      coherent patterns that act as model-invariant cues—consistent with recent findings linking
+      recognisable structures to improved cross-model transferability.
+    </p>
+
+    <div class="figure-grid" style="margin-bottom: 2.5rem;">
+      <div class="figure-item">
+        <img src="static/images/no_constraints.png" alt="No constraints">
+        <p>(a) No constraints</p>
+      </div>
+      <div class="figure-item">
+        <img src="static/images/transforms_only.png" alt="Random transforms only">
+        <p>(b) Random transforms only</p>
+      </div>
+      <div class="figure-item">
+        <img src="static/images/full_constraints.png" alt="Transforms + TV loss">
+        <p>(c) Transforms + TV loss (full)</p>
+      </div>
+      <div class="figure-item">
+        <img src="static/images/ultrabreak_jailbreak.png" alt="UltraBreak optimised image">
+        <p>(d) UltraBreak jailbreak image</p>
+      </div>
+    </div>
+
+    <!-- Loss Landscape -->
+    <h3 class="title is-4" style="margin-bottom: 0.75rem;">Loss Landscape Analysis</h3>
+    <p style="margin-bottom: 1.25rem;">
+      We visualise the loss landscape by sampling along two random directions in image space.
+      The cross-entropy loss yields a spiky, irregular landscape with scattered minima,
+      causing optimisation to overfit the surrogate. In contrast, the semantic loss produces
+      well-clustered low-loss regions that enable better generalisation.
+      Increasing the attention temperature &tau; progressively smooths the landscape, with &tau;&nbsp;=&nbsp;0.5
+      offering the best balance between stability and jailbreak diversity.
+    </p>
+
+    <div class="landscape-grid" style="margin-bottom: 2.5rem;">
+      <div class="landscape-item">
+        <!-- Convert ce_landscape (1).pdf to PNG and rename to ce_landscape.png -->
+        <img src="static/images/ce_landscape.png"
+             alt="Cross-entropy loss landscape"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+        <div style="display:none; background:#eee; padding:1rem; border-radius:4px; font-size:0.8rem; color:#888;">
+          ce_landscape.png<br>(see note below)
+        </div>
+        <p>(a) Cross-entropy loss</p>
+      </div>
+      <div class="landscape-item">
+        <img src="static/images/t0_landscape.png"
+             alt="Semantic loss tau=0"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+        <div style="display:none; background:#eee; padding:1rem; border-radius:4px; font-size:0.8rem; color:#888;">
+          t0_landscape.png<br>(see note below)
+        </div>
+        <p>(b) Semantic loss &tau;&nbsp;=&nbsp;0</p>
+      </div>
+      <div class="landscape-item">
+        <img src="static/images/t5_landscape.png"
+             alt="Semantic loss tau=0.5"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+        <div style="display:none; background:#eee; padding:1rem; border-radius:4px; font-size:0.8rem; color:#888;">
+          t5_landscape.png<br>(see note below)
+        </div>
+        <p>(c) Semantic loss &tau;&nbsp;=&nbsp;0.5 (ours)</p>
+      </div>
+      <div class="landscape-item">
+        <img src="static/images/tinf_landscape.png"
+             alt="Semantic loss tau→inf"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+        <div style="display:none; background:#eee; padding:1rem; border-radius:4px; font-size:0.8rem; color:#888;">
+          tinf_landscape.png<br>(see note below)
+        </div>
+        <p>(d) Semantic loss &tau;&nbsp;&rarr;&nbsp;&infin;</p>
+      </div>
+    </div>
+
+    <!-- Transferability heatmaps placeholder -->
+    <h3 class="title is-4" style="margin-bottom: 0.75rem;">Transferability Across Models</h3>
+    <p style="margin-bottom: 1.25rem;">
+      UltraBreak exhibits strong transferability regardless of which surrogate model is used for
+      training, demonstrating that it captures jailbreak-inducing features broadly recognised across
+      diverse VLM architectures. Transferability also improves with larger surrogate model sizes,
+      indicating further potential as surrogate scales increase.
+    </p>
+
+    <div class="columns is-centered" style="margin-bottom: 0.5rem;">
+      <div class="column is-half has-text-centered">
+        <img src="static/images/heatmap_transferability.png"
+             alt="Transferability heatmap across surrogate models"
+             style="max-width:100%; border-radius:6px;"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+        <div style="display:none; background:#f0f0f0; padding:2rem; border-radius:6px; color:#888; font-size:0.9rem;">
+          Heatmap: heatmap_transferability.png<br>
+          <em>(add figure to docs/static/images/)</em>
+        </div>
+        <p class="is-size-7" style="margin-top:0.4rem; color:#555;">Cross-surrogate transferability on SafeBench.</p>
+      </div>
+      <div class="column is-half has-text-centered">
+        <img src="static/images/model_sizes_heatmap.png"
+             alt="Model size transferability heatmap"
+             style="max-width:100%; border-radius:6px;"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+        <div style="display:none; background:#f0f0f0; padding:2rem; border-radius:6px; color:#888; font-size:0.9rem;">
+          Heatmap: model_sizes_heatmap.png<br>
+          <em>(add figure to docs/static/images/)</em>
+        </div>
+        <p class="is-size-7" style="margin-top:0.4rem; color:#555;">Transferability vs. surrogate/victim model size.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════ BIBTEX ═══════════════════════════════════════ -->
+<section class="section" id="bibtex">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">
+      <span class="section-title">BibTeX</span>
+    </h2>
+
+    <div style="position:relative;">
+      <button id="copy-bibtex"
+              style="position:absolute; top:0.6rem; right:0.75rem; z-index:1;
+                     background:#3273dc; color:white; border:none; border-radius:4px;
+                     padding:4px 12px; font-size:0.82rem; cursor:pointer;">
+        Copy
+      </button>
+      <pre id="bibtex-content" class="bibtex-block">@inproceedings{cui2026ultrabreak,
+  title     = {Toward Universal and Transferable Jailbreak Attacks on Vision-Language Models},
+  author    = {Cui, Kaiyuan and Li, Yige and Wu, Yutao and Ma, Xingjun and
+               Erfani, Sarah and Leckie, Christopher and Huang, Hanxun},
+  booktitle = {International Conference on Learning Representations (ICLR)},
+  year      = {2026},
+}</pre>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════ FOOTER ═══════════════════════════════════════ -->
+<footer class="footer">
+  <div class="content has-text-centered">
+    <p>
+      This work was supported by the ARC Centre of Excellence for Automated Decision-Making and Society
+      (CE200100005) and The University of Melbourne's Research Computing Services.
+    </p>
+    <p style="font-size:0.8rem; color:#999; margin-top:0.5rem;">
+      Website template adapted from
+      <a href="https://github.com/nerfies/nerfies.github.io" style="color:#999;">Nerfies</a>
+      under a
+      <a href="http://creativecommons.org/licenses/by-sa/4.0/" style="color:#999;">CC BY-SA 4.0</a>
+      license.
+    </p>
+  </div>
+</footer>
+
+<script src="static/js/index.js"></script>
+</body>
+</html>

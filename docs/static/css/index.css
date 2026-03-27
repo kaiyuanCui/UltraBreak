@@ -1,0 +1,225 @@
+body {
+  font-family: 'Noto Sans', sans-serif;
+}
+
+.publication-title {
+  font-family: 'Google Sans', sans-serif;
+}
+
+.publication-authors {
+  font-family: 'Google Sans', sans-serif;
+}
+
+.publication-venue {
+  color: #555;
+  width: fit-content;
+  font-weight: bold;
+}
+
+.publication-links .button {
+  font-family: 'Google Sans', sans-serif;
+  margin: 3px;
+}
+
+.author-block a {
+  color: inherit;
+  text-decoration: underline dotted;
+}
+
+.author-block a:hover {
+  color: hsl(204, 86%, 53%);
+  text-decoration: underline;
+}
+
+/* Affiliation superscripts */
+.affil-sup {
+  font-size: 0.75em;
+  vertical-align: super;
+  color: #555;
+}
+
+section.hero {
+  background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf1 100%);
+}
+
+.hero .subtitle {
+  font-family: 'Google Sans', sans-serif;
+}
+
+/* Results table */
+.results-table {
+  font-size: 0.88rem;
+  overflow-x: auto;
+}
+
+.results-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.results-table th {
+  background-color: #363636;
+  color: white;
+  padding: 8px 12px;
+  text-align: center;
+  font-weight: 600;
+}
+
+.results-table td {
+  padding: 6px 12px;
+  text-align: center;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.results-table tr:hover td {
+  background-color: #f5f5f5;
+}
+
+.results-table .whitebox {
+  background-color: #d3d3d340;
+}
+
+.results-table .best {
+  font-weight: bold;
+}
+
+.results-table .avg-row td {
+  background-color: #f0f0f0;
+  font-weight: 600;
+  border-top: 2px solid #aaa;
+}
+
+.results-table .section-header td {
+  background-color: #5a5a5a;
+  color: white;
+  font-weight: bold;
+  text-align: left;
+  padding-left: 12px;
+}
+
+/* Figure grids */
+.figure-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  align-items: flex-end;
+}
+
+.figure-grid .figure-item {
+  text-align: center;
+  flex: 1 1 200px;
+  max-width: 260px;
+}
+
+.figure-grid .figure-item img {
+  width: 100%;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+}
+
+.figure-grid .figure-item p {
+  margin-top: 0.4rem;
+  font-size: 0.85rem;
+  color: #555;
+}
+
+/* Loss landscape grid */
+.landscape-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.landscape-grid .landscape-item {
+  text-align: center;
+  flex: 1 1 160px;
+  max-width: 200px;
+}
+
+.landscape-grid .landscape-item img {
+  width: 100%;
+  border-radius: 4px;
+}
+
+.landscape-grid .landscape-item p {
+  margin-top: 0.4rem;
+  font-size: 0.82rem;
+  color: #555;
+}
+
+/* BibTeX */
+.bibtex-block {
+  background: #f4f4f4;
+  border-left: 4px solid #3273dc;
+  padding: 1.2rem 1.5rem;
+  border-radius: 4px;
+  font-family: 'Courier New', monospace;
+  font-size: 0.88rem;
+  white-space: pre;
+  overflow-x: auto;
+}
+
+/* Method description box */
+.method-box {
+  background: #f8f9ff;
+  border: 1px solid #dde3f0;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-top: 1rem;
+}
+
+.method-box .method-item {
+  margin-bottom: 0.8rem;
+}
+
+.method-box .method-item:last-child {
+  margin-bottom: 0;
+}
+
+/* Highlight numbers */
+.highlight-num {
+  color: #3273dc;
+  font-weight: bold;
+}
+
+/* Tag/badge */
+.venue-tag {
+  display: inline-block;
+  background: #3273dc;
+  color: white;
+  font-family: 'Google Sans', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 4px 14px;
+  border-radius: 20px;
+  margin-bottom: 0.5rem;
+}
+
+/* Footer */
+footer {
+  background-color: #f5f5f5;
+  padding: 2rem 0 1.5rem;
+  font-size: 0.875rem;
+  color: #666;
+}
+
+/* Section titles */
+.section-title {
+  font-family: 'Google Sans', sans-serif;
+  font-weight: 600;
+  border-bottom: 2px solid #3273dc;
+  padding-bottom: 0.4rem;
+  margin-bottom: 1.5rem;
+  display: inline-block;
+}
+
+/* Abstract box */
+.abstract-box {
+  border-left: 4px solid #3273dc;
+  padding-left: 1.5rem;
+  font-size: 1.05rem;
+  line-height: 1.75;
+  color: #333;
+}

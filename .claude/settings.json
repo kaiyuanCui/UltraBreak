@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:hanxunh.github.io)",
+      "WebFetch(domain:nerfies.github.io)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(find e:/Projects/UltraBreak -name *.pdf -o -name *.tex -o -name paper*)",
+      "Bash(mkdir -p e:/Projects/UltraBreak/docs/static/css e:/Projects/UltraBreak/docs/static/js e:/Projects/UltraBreak/docs/static/images)",
+      "Bash(cp \"e:/Projects/UltraBreak/figures/ultrabreak_overview.png\" e:/Projects/UltraBreak/docs/static/images/)",
+      "Bash(cp \"e:/Projects/UltraBreak/figures/no_constraints.png\" e:/Projects/UltraBreak/docs/static/images/)",
+      "Bash(cp \"e:/Projects/UltraBreak/figures/transforms_only.png\" e:/Projects/UltraBreak/docs/static/images/)",
+      "Bash(cp \"e:/Projects/UltraBreak/figures/full_constraints.png\" e:/Projects/UltraBreak/docs/static/images/)",
+      "Bash(ls -lh e:/Projects/UltraBreak/docs/static/images/*.png)",
+      "Bash(ls e:/Projects/UltraBreak/Figures/*.pdf)"
+    ]
+  }
+}
