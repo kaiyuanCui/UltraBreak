@@ -9,6 +9,8 @@
 > This repository contains research on adversarial jailbreak attacks for **defensive and scientific purposes only**. The techniques described could potentially be misused to elicit harmful outputs from vision-language models. We release this work to transparently expose vulnerabilities and inform the development of safer, more robust VLMs. We ask that users engage with this work responsibly and in accordance with applicable laws and ethical guidelines.
 
 
+## 🎯 Motivation
+
 Gradient-based image jailbreaks for VLMs have a fundamental problem: **they overfit**. Optimise an adversarial image against one model and it rarely works on another, as the pattern overfits to model-specific shortcuts rather than anything semantically meaningful.
 
 We identify two root causes and fixes both:
