@@ -6,30 +6,39 @@
 
 
 > [!CAUTION]
-> This repository contains research on adversarial jailbreak attacks for **defensive and scientific purposes only**. The techniques described could potentially be misused to elicit harmful outputs from vision-language models. We release this work to transparently expose vulnerabilities and inform the development of safer, more robust VLMs — consistent with prior red-teaming literature. As the methodology builds on existing techniques, independent discovery by malicious actors is plausible; proactive disclosure is therefore preferable to silence. We ask that users engage with this work responsibly and in accordance with applicable laws and ethical guidelines.
+> This repository contains research on adversarial jailbreak attacks for **defensive and scientific purposes only**. The techniques described could potentially be misused to elicit harmful outputs from vision-language models. We release this work to transparently expose vulnerabilities and inform the development of safer, more robust VLMs. We ask that users engage with this work responsibly and in accordance with applicable laws and ethical guidelines.
 
 > [!NOTE]
 > Gradient-based image jailbreaks for VLMs have a fundamental problem: **they overfit**. Optimise an adversarial image against one model and it rarely works on another, as the pattern overfits to model-specific shortcuts rather than anything semantically meaningful.
 
 We identify two root causes and fixes both:
 
-- 🔴 **Sharp loss landscape.** Cross-entropy against hard token targets creates narrow, jagged optima that don't generalise. Replacing it with cosine similarity in the LLM's embedding space — targeting the *semantics* of a harmful response rather than exact tokens — smooths the landscape and guides optimisation toward features that transfer.
+- 🔴 **Sharp loss landscape.** Cross-entropy against hard token targets creates narrow, jagged optima that don't generalise. Replacing it with cosine similarity in the LLM's embedding space, which targets the *semantics* of a harmful response rather than exact tokens, smooths the landscape and guides optimisation toward features that transfer.
 
-- 🔴 **Unconstrained optimisation space.** Without regularisation, adversarial patterns exploit arbitrary pixel-level quirks of the surrogate. Random spatial transformations (scaling, rotation) and total-variation loss force the optimiser to find patterns that survive distortion — the same robustness that makes them model-agnostic.
+- 🔴 **Unconstrained optimisation space.** Without regularisation, adversarial patterns exploit arbitrary pixel-level features of the surrogate. Random spatial transformations (scaling, rotation) and total-variation loss force the optimiser to find structured and more robust adversarial patterns. We find that these are more likely to generalise across VLMs, due to similar visual pretraining across diverse architectures.
 
 > [!IMPORTANT]
 > The result is a **single adversarial image** that jailbreaks diverse VLMs and generalises across hundreds of unseen attack targets.
 
 ## 📘 Method Overview
 
-**UltraBreak** (**U**niversa**l** and **tra**nsferable jail**break**) optimises a single adversarial image against a white-box surrogate using two main components:
-
-- **Input Space Constraints** — random scaling, rotation, and TV-loss regularisation prevent the pattern from overfitting to surrogate-specific pixel quirks, producing visually smoother and more transferable perturbations.
-- **Semantic-Driven Loss** ($\mathcal{L}_\text{sem}^\text{att}$) — instead of matching exact output tokens via cross-entropy, the loss minimises cosine distance between predicted and target token embeddings using an attention-weighted aggregation. This smooths the loss landscape and aligns optimisation with the *meaning* of the target response rather than its surface form.
-
 <p align="center">
   <img src="figures/ultrabreak_overview.png" width="100%" alt="UltraBreak overview">
 </p>
+
+UltraBreak optimises a *single* adversarial image on a white-box surrogate via two components:
+
+**(1) Semantic-Driven Loss.** Rather than forcing exact token matches via cross-entropy, UltraBreak aligns the model's expected output embedding $\mu_t = W^\top \operatorname{softmax}(z_t)$ with an attention-weighted target over future token embeddings $e_t^{\text{att}} = \sum_{j \ge t} w_{t,j}^{\text{att}} \tilde{e}_j$:
+
+$$\mathcal{L}_{\text{sem}}^{\text{att}} = \frac{1}{T} \sum_{t=1}^{T} \Big(1 - \cos\!\big(\mu_t,\, e_t^{\text{att}}\big)\Big)$$
+
+This smooths the loss landscape and generalises beyond any specific output phrasing.
+
+**(2) Input Space Constraints.** Random patch transformations and Total Variation regularisation $\mathcal{L}_{\text{TV}}$ encourage model-invariant features, preventing surrogate overfitting:
+
+$$\arg\min_{x} \sum_{(q,y)\in\mathcal{Q}'} \mathbb{E}_{l,r,s}\!\Big[\mathcal{L}_{\text{sem}}^{\text{att}}\!\big(M', A(x_{\text{proj}}, l, r, s), q^{\text{TPG}}, y\big)\Big] + \lambda_{\text{TV}}\,\mathcal{L}_{\text{TV}}(x)$$
+
+where $A$ applies a random patch transformation with location $l$, rotation $r$, and scale $s$ to the projected image $x_{\text{proj}}$; $\mathcal{Q}'$ is the few-shot training corpus of query–target pairs $(q, y)$; and $q^{\text{TPG}}$ augments each query with Targeted Prompt Guidance to bias the surrogate toward affirmative outputs.
 
 ## 🚀 Quick Start
 
