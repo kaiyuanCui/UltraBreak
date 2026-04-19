@@ -206,5 +206,17 @@ marimo/_static/
 marimo/_lsp/
 __marimo__/
 
-# Claude Code
+# macOS metadata
+.DS_Store
+**/.DS_Store
+
+# Claude Code & local AI co-author artifacts
 .claude/
+CLAUDE.md
+AGENTS.md
+.agents/
+.omc/
+.cursor/
+.cursorrules
+.windsurfrules
+.aider*

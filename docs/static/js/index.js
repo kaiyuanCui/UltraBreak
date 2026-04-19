@@ -1,34 +1,28 @@
-// Navbar burger toggle
+// Smooth scrolling is handled by CSS (html { scroll-behavior: smooth }).
+// JS here: BibTeX copy button + Examples chip selector.
+
 document.addEventListener('DOMContentLoaded', () => {
-  const burger = document.querySelector('.navbar-burger');
-  const menu = document.querySelector('.navbar-menu');
-  if (burger && menu) {
-    burger.addEventListener('click', () => {
-      burger.classList.toggle('is-active');
-      menu.classList.toggle('is-active');
-    });
-  }
-
-  // Smooth scroll for anchor links
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-      const target = document.querySelector(this.getAttribute('href'));
-      if (target) {
-        e.preventDefault();
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    });
-  });
-
-  // Copy BibTeX button
+  // ── BibTeX copy ──
   const copyBtn = document.getElementById('copy-bibtex');
   if (copyBtn) {
+    const src = document.getElementById('bibtex-content');
     copyBtn.addEventListener('click', () => {
-      const text = document.getElementById('bibtex-content').textContent;
-      navigator.clipboard.writeText(text).then(() => {
-        copyBtn.textContent = 'Copied!';
-        setTimeout(() => { copyBtn.textContent = 'Copy'; }, 2000);
+      navigator.clipboard.writeText(src.textContent).then(() => {
+        const original = copyBtn.textContent;
+        copyBtn.textContent = 'copied';
+        setTimeout(() => { copyBtn.textContent = original; }, 1500);
       });
     });
   }
+
+  // ── Examples chip selector ──
+  const chips = document.querySelectorAll('.example-selector .chip');
+  const cards = document.querySelectorAll('#examples .example-card');
+  chips.forEach((chip) => {
+    chip.addEventListener('click', () => {
+      const target = chip.dataset.target;
+      chips.forEach((c) => c.classList.toggle('is-active', c === chip));
+      cards.forEach((card) => card.classList.toggle('hidden', card.id !== target));
+    });
+  });
 });
